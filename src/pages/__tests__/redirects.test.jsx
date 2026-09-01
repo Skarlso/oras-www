@@ -9,24 +9,24 @@ import OrasRedirect from '../oras/index.jsx';
 describe('Redirect Pages', () => {
   describe('oras-go/v2/index.jsx', () => {
     it('should render meta refresh redirect to oras-go GitHub', () => {
-      const { container } = render(<OrasGoV2Redirect />);
-      const metaRefresh = container.querySelector('meta[http-equiv="refresh"]');
+      render(<OrasGoV2Redirect />);
+      const metaRefresh = document.querySelector('meta[http-equiv="refresh"]');
 
       expect(metaRefresh).toBeInTheDocument();
       expect(metaRefresh).toHaveAttribute('content', '0; url=https://github.com/oras-project/oras-go');
     });
 
     it('should include go-import meta tag with correct content', () => {
-      const { container } = render(<OrasGoV2Redirect />);
-      const goImport = container.querySelector('meta[name="go-import"]');
+      render(<OrasGoV2Redirect />);
+      const goImport = document.querySelector('meta[name="go-import"]');
 
       expect(goImport).toBeInTheDocument();
       expect(goImport).toHaveAttribute('content', 'oras.land/oras-go/v2 git https://github.com/oras-project/oras-go');
     });
 
     it('should include go-source meta tag with correct content', () => {
-      const { container } = render(<OrasGoV2Redirect />);
-      const goSource = container.querySelector('meta[name="go-source"]');
+      render(<OrasGoV2Redirect />);
+      const goSource = document.querySelector('meta[name="go-source"]');
 
       expect(goSource).toBeInTheDocument();
       expect(goSource).toHaveAttribute(
@@ -36,8 +36,8 @@ describe('Redirect Pages', () => {
     });
 
     it('should include charset meta tag', () => {
-      const { container } = render(<OrasGoV2Redirect />);
-      const charset = container.querySelector('meta[charset="utf-8"]');
+      render(<OrasGoV2Redirect />);
+      const charset = document.querySelector('meta[charset="utf-8"]');
 
       expect(charset).toBeInTheDocument();
     });
@@ -45,24 +45,24 @@ describe('Redirect Pages', () => {
 
   describe('oras-go/index.jsx', () => {
     it('should render meta refresh redirect to oras-go GitHub', () => {
-      const { container } = render(<OrasGoRedirect />);
-      const metaRefresh = container.querySelector('meta[http-equiv="refresh"]');
+      render(<OrasGoRedirect />);
+      const metaRefresh = document.querySelector('meta[http-equiv="refresh"]');
 
       expect(metaRefresh).toBeInTheDocument();
       expect(metaRefresh).toHaveAttribute('content', '0; url=https://github.com/oras-project/oras-go');
     });
 
     it('should include go-import meta tag with correct content', () => {
-      const { container } = render(<OrasGoRedirect />);
-      const goImport = container.querySelector('meta[name="go-import"]');
+      render(<OrasGoRedirect />);
+      const goImport = document.querySelector('meta[name="go-import"]');
 
       expect(goImport).toBeInTheDocument();
       expect(goImport).toHaveAttribute('content', 'oras.land/oras-go git https://github.com/oras-project/oras-go');
     });
 
     it('should include go-source meta tag with correct content', () => {
-      const { container } = render(<OrasGoRedirect />);
-      const goSource = container.querySelector('meta[name="go-source"]');
+      render(<OrasGoRedirect />);
+      const goSource = document.querySelector('meta[name="go-source"]');
 
       expect(goSource).toBeInTheDocument();
       expect(goSource).toHaveAttribute(
@@ -72,8 +72,8 @@ describe('Redirect Pages', () => {
     });
 
     it('should include charset meta tag', () => {
-      const { container } = render(<OrasGoRedirect />);
-      const charset = container.querySelector('meta[charset="utf-8"]');
+      render(<OrasGoRedirect />);
+      const charset = document.querySelector('meta[charset="utf-8"]');
 
       expect(charset).toBeInTheDocument();
     });
@@ -81,24 +81,24 @@ describe('Redirect Pages', () => {
 
   describe('oras/index.jsx', () => {
     it('should render meta refresh redirect to oras GitHub', () => {
-      const { container } = render(<OrasRedirect />);
-      const metaRefresh = container.querySelector('meta[http-equiv="refresh"]');
+      render(<OrasRedirect />);
+      const metaRefresh = document.querySelector('meta[http-equiv="refresh"]');
 
       expect(metaRefresh).toBeInTheDocument();
       expect(metaRefresh).toHaveAttribute('content', '0; url=https://github.com/oras-project/oras');
     });
 
     it('should include go-import meta tag with correct content', () => {
-      const { container } = render(<OrasRedirect />);
-      const goImport = container.querySelector('meta[name="go-import"]');
+      render(<OrasRedirect />);
+      const goImport = document.querySelector('meta[name="go-import"]');
 
       expect(goImport).toBeInTheDocument();
       expect(goImport).toHaveAttribute('content', 'oras.land/oras git https://github.com/oras-project/oras');
     });
 
     it('should include go-source meta tag with correct content', () => {
-      const { container } = render(<OrasRedirect />);
-      const goSource = container.querySelector('meta[name="go-source"]');
+      render(<OrasRedirect />);
+      const goSource = document.querySelector('meta[name="go-source"]');
 
       expect(goSource).toBeInTheDocument();
       expect(goSource).toHaveAttribute(
@@ -108,8 +108,8 @@ describe('Redirect Pages', () => {
     });
 
     it('should not include charset meta tag (different from oras-go pages)', () => {
-      const { container } = render(<OrasRedirect />);
-      const charset = container.querySelector('meta[charset="utf-8"]');
+      render(<OrasRedirect />);
+      const charset = document.querySelector('meta[charset="utf-8"]');
 
       // This page doesn't have charset meta tag, unlike the oras-go pages
       expect(charset).not.toBeInTheDocument();
@@ -118,25 +118,33 @@ describe('Redirect Pages', () => {
 
   describe('Redirect URLs consistency', () => {
     it('should redirect oras-go/v2 and oras-go to the same URL', () => {
-      const { container: v2Container } = render(<OrasGoV2Redirect />);
-      const { container: baseContainer } = render(<OrasGoRedirect />);
+      const { unmount: unmountV2 } = render(<OrasGoV2Redirect />);
+      const v2MetaRefresh = document.querySelector('meta[http-equiv="refresh"]');
+      const v2Content = v2MetaRefresh.getAttribute('content');
+      unmountV2();
 
-      const v2MetaRefresh = v2Container.querySelector('meta[http-equiv="refresh"]');
-      const baseMetaRefresh = baseContainer.querySelector('meta[http-equiv="refresh"]');
+      const { unmount: unmountBase } = render(<OrasGoRedirect />);
+      const baseMetaRefresh = document.querySelector('meta[http-equiv="refresh"]');
+      const baseContent = baseMetaRefresh.getAttribute('content');
+      unmountBase();
 
-      expect(v2MetaRefresh.getAttribute('content')).toBe(baseMetaRefresh.getAttribute('content'));
+      expect(v2Content).toBe(baseContent);
     });
 
     it('should redirect to different repositories for oras-go and oras', () => {
-      const { container: goContainer } = render(<OrasGoRedirect />);
-      const { container: orasContainer } = render(<OrasRedirect />);
+      const { unmount: unmountGo } = render(<OrasGoRedirect />);
+      const goMetaRefresh = document.querySelector('meta[http-equiv="refresh"]');
+      const goContent = goMetaRefresh.getAttribute('content');
+      unmountGo();
 
-      const goMetaRefresh = goContainer.querySelector('meta[http-equiv="refresh"]');
-      const orasMetaRefresh = orasContainer.querySelector('meta[http-equiv="refresh"]');
+      const { unmount: unmountOras } = render(<OrasRedirect />);
+      const orasMetaRefresh = document.querySelector('meta[http-equiv="refresh"]');
+      const orasContent = orasMetaRefresh.getAttribute('content');
+      unmountOras();
 
-      expect(goMetaRefresh.getAttribute('content')).toContain('oras-go');
-      expect(orasMetaRefresh.getAttribute('content')).toContain('oras-project/oras');
-      expect(goMetaRefresh.getAttribute('content')).not.toBe(orasMetaRefresh.getAttribute('content'));
+      expect(goContent).toContain('oras-go');
+      expect(orasContent).toContain('oras-project/oras');
+      expect(goContent).not.toBe(orasContent);
     });
   });
 });

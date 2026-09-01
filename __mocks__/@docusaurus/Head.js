@@ -1,5 +1,5 @@
 import React from 'react';
 
-const Head = ({ children }) => <head>{children}</head>;
+const Head = ({ children }) => <>{children}</>;
 
 export default Head;
