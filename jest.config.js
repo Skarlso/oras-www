@@ -11,6 +11,8 @@ module.exports = {
   },
   transform: {
     '^.+\\.(js|jsx)$': ['babel-jest', {
+      configFile: false,
+      babelrc: false,
       presets: [
         ['@babel/preset-env', { targets: { node: 'current' } }],
         ['@babel/preset-react', { runtime: 'automatic' }],
